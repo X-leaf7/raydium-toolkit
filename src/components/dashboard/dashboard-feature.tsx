@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-function TokenSelectionModal({ isOpen, onClose, onSelect, tokens }) {
+function TokenSelectionModal({ isOpen, onClose, onSelect, tokens }: { isOpen: boolean, onClose: () => void, onSelect: (token: string) => void, tokens: string[] }) {
   const [selectedToken, setSelectedToken] = useState('');
 
   const handleSelect = () => {
@@ -30,7 +30,7 @@ function TokenSelectionModal({ isOpen, onClose, onSelect, tokens }) {
           className="border border-gray-300 p-2 rounded-md w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="" disabled>Select a token</option>
-          {tokens.map((token) => (
+          {tokens.map((token: string) => (
             <option key={token} value={token}>{token}</option>
           ))}
         </select>
@@ -43,13 +43,13 @@ function TokenSelectionModal({ isOpen, onClose, onSelect, tokens }) {
   );
 }
 
-function Modal({ isOpen, onClose, onSubmit }) {
+function Modal({ isOpen, onClose, onSubmit }: { isOpen: boolean, onClose: () => void, onSubmit: (wallet: { address: string; sol: number }) => void }) {
   const [walletAddress, setWalletAddress] = useState('');
   const [tokenAmount, setTokenAmount] = useState('');
 
   const handleSubmit = () => {
     if (walletAddress && Number(tokenAmount) > 0) {
-      onSubmit({ address: walletAddress, sol: tokenAmount });
+      onSubmit({ address: walletAddress, sol: Number(tokenAmount) });
       setWalletAddress('');
       setTokenAmount('');
       onClose();
@@ -121,7 +121,7 @@ export default function Home() {
     }
   }, [baseAmount, quoteAmount]);
 
-  const handleAddWallet = (wallet) => {
+  const handleAddWallet = (wallet: { address: string; sol: number }) => {
     setSnipeWallets([...snipeWallets, wallet]);
   };
 
